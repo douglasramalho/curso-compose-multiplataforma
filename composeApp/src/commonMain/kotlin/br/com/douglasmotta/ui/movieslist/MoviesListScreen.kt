@@ -1,6 +1,7 @@
 package br.com.douglasmotta.ui.movieslist
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,26 +30,31 @@ fun MoviesListScreen() {
             contentPadding = PaddingValues(vertical = 16.dp),
         ) {
             item {
-                Text(
-                    text = "Popular Movies",
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-            
-            item {
-                LazyRow(
-                    modifier = Modifier
-                        .padding(top = 8.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    items(10) {
-                        MoviePoster()
+                Column {
+                    Text(
+                        text = "Popular Movies",
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+
+                    LazyRow(
+                        modifier = Modifier
+                            .padding(top = 8.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        items(10) {
+                            MoviePoster()
+                        }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun MoviesSection(modifier: Modifier = Modifier) {
+    
 }
