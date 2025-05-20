@@ -1,6 +1,5 @@
 package br.com.douglasmotta.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -15,9 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import br.com.douglasmotta.domain.model.Movie
-import movies.composeapp.generated.resources.Res
-import movies.composeapp.generated.resources.minecraft_movie
-import org.jetbrains.compose.resources.painterResource
+import coil3.compose.AsyncImage
 
 @Composable
 fun MoviePoster(
@@ -25,7 +22,8 @@ fun MoviePoster(
     modifier: Modifier = Modifier
 ) {
     Column (
-        modifier = modifier,
+        modifier = modifier
+            .width(140.dp),
     ) {
         Card(
             modifier = modifier
@@ -33,8 +31,8 @@ fun MoviePoster(
                 .height(210.dp),
             shape = RoundedCornerShape(12.dp),
         ) {
-            Image(
-                painter = painterResource(Res.drawable.minecraft_movie),
+            AsyncImage(
+                model = movie.posterUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
