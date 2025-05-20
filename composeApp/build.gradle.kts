@@ -50,7 +50,7 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.coil.compose)
-            implementation(libs.coil.network.okhttp)
+            implementation("io.coil-kt.coil3:coil-network-ktor3:3.2.0")
 
             implementation(libs.ktor.client.core)
             implementation(libs.kotlinx.coroutines.core)
