@@ -13,8 +13,8 @@ class MoviesListViewModel(
     private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
 
-    private val _movieSections = MutableStateFlow<MoviesListState>(MoviesListState.Loading)
-    val movieSections = _movieSections.asStateFlow()
+    private val _moviesListState = MutableStateFlow<MoviesListState>(MoviesListState.Loading)
+    val moviesListState = _moviesListState.asStateFlow()
 
     init {
         getMovieSections()
@@ -23,11 +23,14 @@ class MoviesListViewModel(
     private fun getMovieSections() {
         viewModelScope.launch {
             try {
-                _movieSections.update {
-                    MoviesListState.Success(moviesRepository.getMovieSections())
+                val movieSections = moviesRepository.getMovieSections()
+                _moviesListState.update {
+                    MoviesListState.Success(movieSections)
                 }
             } catch (e: Exception) {
-                MoviesListState.Error(e.message ?: "Unknown error")
+                _moviesListState.update {
+                    MoviesListState.Error(e.message ?: "Unknown error")
+                }
             }
         }
     }
