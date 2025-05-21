@@ -58,6 +58,12 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
+
+            val koin_version = "4.1.0-RC1"
+            implementation("io.insert-koin:koin-compose:$koin_version")
+            implementation("io.insert-koin:koin-compose-viewmodel:$koin_version")
+            implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koin_version")
+            implementation("io.insert-koin:koin-core:$koin_version")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

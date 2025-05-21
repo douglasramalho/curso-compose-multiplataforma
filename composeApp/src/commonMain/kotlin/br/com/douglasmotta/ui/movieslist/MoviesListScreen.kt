@@ -17,17 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import br.com.douglasmotta.data.repository.MoviesRepository
 import br.com.douglasmotta.domain.model.MovieSection
 import br.com.douglasmotta.ui.components.MoviesSection
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoviesListRoute(
-    moviesListViewModel: MoviesListViewModel = viewModel {
-        MoviesListViewModel(MoviesRepository())
-    },
+    moviesListViewModel: MoviesListViewModel = koinViewModel(),
 ) {
     val moviesListState by moviesListViewModel.moviesListState.collectAsStateWithLifecycle()
 
