@@ -19,6 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.douglasmotta.domain.model.MovieSection
 import br.com.douglasmotta.ui.components.MoviesSection
+import movies.composeapp.generated.resources.Res
+import movies.composeapp.generated.resources.movies_list_popular_movies
+import movies.composeapp.generated.resources.movies_list_top_rated_movies
+import movies.composeapp.generated.resources.movies_list_upcoming_movies
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -54,19 +59,19 @@ fun MoviesListScreen(
                             when (movieSection.section) {
                                 MovieSection.SectionType.POPULAR -> {
                                     MoviesSection(
-                                        title = "Popular Movies",
+                                        title = stringResource(Res.string.movies_list_popular_movies),
                                         movies = movieSection.movies
                                     )
                                 }
                                 MovieSection.SectionType.TOP_RATED -> {
                                     MoviesSection(
-                                        title = "Top Rated Movies",
+                                        title = stringResource(Res.string.movies_list_top_rated_movies),
                                         movies = movieSection.movies
                                     )
                                 }
                                 MovieSection.SectionType.UPCOMING -> {
                                     MoviesSection(
-                                        title = "Upcoming Movies",
+                                        title = stringResource(Res.string.movies_list_upcoming_movies),
                                         movies = movieSection.movies
                                     )
                                 }

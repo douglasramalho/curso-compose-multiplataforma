@@ -1,6 +1,5 @@
 package br.com.douglasmotta
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,6 +9,7 @@ import br.com.douglasmotta.di.networkModule
 import br.com.douglasmotta.di.viewModelModule
 import br.com.douglasmotta.ui.movieslist.MoviesListRoute
 import br.com.douglasmotta.ui.navigation.AppRoutes
+import br.com.douglasmotta.ui.theme.MoviesAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 
@@ -21,7 +21,7 @@ fun App() {
             modules(networkModule, dataModule, viewModelModule)
         }
     ) {
-        MaterialTheme {
+        MoviesAppTheme {
             val navController = rememberNavController()
             NavHost(navController, startDestination = AppRoutes.MoviesList) {
                 composable<AppRoutes.MoviesList> {
