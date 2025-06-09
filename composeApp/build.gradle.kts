@@ -64,6 +64,10 @@ kotlin {
             implementation("io.insert-koin:koin-compose-viewmodel:$koin_version")
             implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koin_version")
             implementation("io.insert-koin:koin-core:$koin_version")
+
+            implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.1")
+
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

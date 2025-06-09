@@ -19,6 +19,7 @@ import coil3.compose.AsyncImage
 @Composable
 fun MoviePoster(
     movie: Movie,
+    onMoviePosterClick: (Movie) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column (
@@ -26,6 +27,9 @@ fun MoviePoster(
             .width(140.dp),
     ) {
         Card(
+            onClick = {
+                onMoviePosterClick(movie)
+            },
             modifier = modifier
                 .width(140.dp)
                 .height(210.dp),

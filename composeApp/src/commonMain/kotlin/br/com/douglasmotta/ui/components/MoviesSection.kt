@@ -18,6 +18,7 @@ import br.com.douglasmotta.domain.model.Movie
 fun MoviesSection(
     title: String,
     movies: List<Movie>,
+    onMoviePosterClick: (Movie) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -39,7 +40,8 @@ fun MoviesSection(
         ) {
             items(movies) { movie ->
                 MoviePoster(
-                    movie = movie
+                    movie = movie,
+                    onMoviePosterClick = onMoviePosterClick,
                 )
             }
         }

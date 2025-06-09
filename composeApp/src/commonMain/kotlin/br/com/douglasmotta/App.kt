@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.douglasmotta.di.dataModule
 import br.com.douglasmotta.di.networkModule
 import br.com.douglasmotta.di.viewModelModule
+import br.com.douglasmotta.ui.moviedetail.MovieDetailRoute
 import br.com.douglasmotta.ui.movieslist.MoviesListRoute
 import br.com.douglasmotta.ui.navigation.AppRoutes
 import br.com.douglasmotta.ui.theme.MoviesAppTheme
@@ -25,11 +26,19 @@ fun App() {
             val navController = rememberNavController()
             NavHost(navController, startDestination = AppRoutes.MoviesList) {
                 composable<AppRoutes.MoviesList> {
-                    MoviesListRoute()
+                    MoviesListRoute(
+                        navigateToMovieDetail = { movie ->
+                            navController.navigate(AppRoutes.MovieDetail(movie.id))
+                        }
+                    )
                 }
 
                 composable<AppRoutes.MovieDetail> {
-                    // MovieDetailRoute()
+                    MovieDetailRoute(
+                        navigateBack = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
             }
         }

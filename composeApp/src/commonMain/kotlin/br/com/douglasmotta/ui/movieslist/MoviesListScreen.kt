@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.douglasmotta.domain.model.Movie
 import br.com.douglasmotta.domain.model.MovieSection
 import br.com.douglasmotta.ui.components.MoviesSection
 import movies.composeapp.generated.resources.Res
@@ -30,11 +31,13 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MoviesListRoute(
     moviesListViewModel: MoviesListViewModel = koinViewModel(),
+    navigateToMovieDetail: (Movie) -> Unit,
 ) {
     val moviesListState by moviesListViewModel.moviesListState.collectAsStateWithLifecycle()
 
     MoviesListScreen(
         moviesListState = moviesListState,
+        onMovieClick = navigateToMovieDetail
     )
 }
 
@@ -42,6 +45,7 @@ fun MoviesListRoute(
 @Preview
 fun MoviesListScreen(
     moviesListState: MoviesListViewModel.MoviesListState,
+    onMovieClick: (Movie) -> Unit,
 ) {
     Scaffold { padding ->
         Box(
@@ -60,19 +64,22 @@ fun MoviesListScreen(
                                 MovieSection.SectionType.POPULAR -> {
                                     MoviesSection(
                                         title = stringResource(Res.string.movies_list_popular_movies),
-                                        movies = movieSection.movies
+                                        movies = movieSection.movies,
+                                        onMoviePosterClick = onMovieClick
                                     )
                                 }
                                 MovieSection.SectionType.TOP_RATED -> {
                                     MoviesSection(
                                         title = stringResource(Res.string.movies_list_top_rated_movies),
-                                        movies = movieSection.movies
+                                        movies = movieSection.movies,
+                                        onMoviePosterClick = onMovieClick
                                     )
                                 }
                                 MovieSection.SectionType.UPCOMING -> {
                                     MoviesSection(
                                         title = stringResource(Res.string.movies_list_upcoming_movies),
-                                        movies = movieSection.movies
+                                        movies = movieSection.movies,
+                                        onMoviePosterClick = onMovieClick
                                     )
                                 }
                             }

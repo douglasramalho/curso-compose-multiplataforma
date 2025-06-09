@@ -1,8 +1,10 @@
 package br.com.douglasmotta.data.repository
 
+import br.com.douglasmotta.data.mapper.toModel
 import br.com.douglasmotta.data.network.KtorApiClient
+import br.com.douglasmotta.domain.model.ImageSize
+import br.com.douglasmotta.domain.model.Movie
 import br.com.douglasmotta.domain.model.MovieSection
-import br.com.douglasmotta.domain.model.toModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -38,6 +40,23 @@ class MoviesRepository(
                     movies = upcomingMovies.results.map { it.toModel() }
                 )
             )
+        }
+    }
+
+    suspend fun getMovieDetail(movieId: Int): Result<Movie> {
+        return withContext(ioDispatcher) {
+            runCatching {
+                val movieDetailDeferred = async { ktorApiClient.getMovieDetail(movieId) }
+                val creditsDeferred = async { ktorApiClient.getCredits(movieId) }
+
+                val movieDetailResponse = movieDetailDeferred.await()
+                val creditsResponse = creditsDeferred.await()
+
+                movieDetailResponse.toModel(
+                    castMembersResponse = creditsResponse.cast,
+                    imageSize = ImageSize.X_LARGE,
+                )
+            }
         }
     }
 }
