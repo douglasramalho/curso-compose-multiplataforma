@@ -3,6 +3,7 @@ package br.com.douglasmotta.data.network
 import br.com.douglasmotta.data.network.model.CreditsListResponse
 import br.com.douglasmotta.data.network.model.MovieResponse
 import br.com.douglasmotta.data.network.model.MoviesListResponse
+import br.com.douglasmotta.data.network.model.VideosListResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
@@ -69,6 +70,12 @@ class KtorApiClient {
 
     suspend fun getCredits(movieId: Int): CreditsListResponse {
         return client.get("$BASE_URL/3/movie/$movieId/credits") {
+            this.addLanguageParam()
+        }.body()
+    }
+
+    suspend fun getVideos(movieId: Int): VideosListResponse {
+        return client.get("$BASE_URL/3/movie/$movieId/videos") {
             this.addLanguageParam()
         }.body()
     }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.douglasmotta.LocalUrlLauncher
 import br.com.douglasmotta.domain.model.Movie
 import br.com.douglasmotta.ui.components.CastMemberItem
 import br.com.douglasmotta.ui.components.MovieGenreChip
@@ -58,10 +60,37 @@ fun MovieDetailRoute(
     navigateBack: () -> Unit,
 ) {
     val movieDetailState by viewModel.movieDetailState.collectAsStateWithLifecycle()
+    val watchTrailerState by viewModel.watchTrailerState.collectAsStateWithLifecycle()
+
+    if (watchTrailerState is MovieDetailViewModel.WatchTrailerState.Success && watchTrailerState != null) {
+        LocalUrlLauncher.current.openUrl((watchTrailerState as MovieDetailViewModel.WatchTrailerState.Success).youtubeUrl)
+        viewModel.resetWatchTrailerState()
+    }
+
+    if (watchTrailerState is MovieDetailViewModel.WatchTrailerState.Error) {
+        AlertDialog(
+            onDismissRequest = viewModel::resetWatchTrailerState,
+            confirmButton = {
+                viewModel.resetWatchTrailerState()
+            },
+            title = {
+                Text(
+                    text = "Ops.."
+                )
+            },
+            text = {
+                Text(
+                    text = "Trailer não disponível"
+                )
+            }
+        )
+    }
 
     MovieDetailScreen(
         movieDetailState = movieDetailState,
+        watchTrailerState = watchTrailerState,
         onNavigationIconClick = navigateBack,
+        onWatchTrailerClick = viewModel::watchTrailer
     )
 }
 
@@ -69,7 +98,9 @@ fun MovieDetailRoute(
 @Composable
 fun MovieDetailScreen(
     movieDetailState: MovieDetailViewModel.MovieDetailState,
+    watchTrailerState: MovieDetailViewModel.WatchTrailerState?,
     onNavigationIconClick: () -> Unit,
+    onWatchTrailerClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -115,7 +146,9 @@ fun MovieDetailScreen(
                 }
                 is MovieDetailViewModel.MovieDetailState.Success -> {
                     MovieDetailContent(
-                        movie = movieDetailState.movie
+                        movie = movieDetailState.movie,
+                        watchTrailerState = watchTrailerState,
+                        onWatchTrailerClick = onWatchTrailerClick,
                     )
                 }
                 is MovieDetailViewModel.MovieDetailState.Error -> {
@@ -133,7 +166,9 @@ fun MovieDetailScreen(
 @Composable
 fun MovieDetailContent(
     movie: Movie,
+    watchTrailerState: MovieDetailViewModel.WatchTrailerState?,
     modifier: Modifier = Modifier,
+    onWatchTrailerClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -219,9 +254,7 @@ fun MovieDetailContent(
             }
 
             ElevatedButton(
-                onClick = {
-
-                },
+                onClick = onWatchTrailerClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
@@ -240,6 +273,14 @@ fun MovieDetailContent(
                     fontWeight = FontWeight.Medium,
                     style = MaterialTheme.typography.bodyMedium,
                 )
+
+                if (watchTrailerState is MovieDetailViewModel.WatchTrailerState.Loading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .padding(start = 16.dp)
+                    )
+                }
             }
 
             movie.castMembers?.let { castMembers ->

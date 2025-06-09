@@ -5,6 +5,7 @@ import br.com.douglasmotta.data.network.KtorApiClient
 import br.com.douglasmotta.domain.model.ImageSize
 import br.com.douglasmotta.domain.model.Movie
 import br.com.douglasmotta.domain.model.MovieSection
+import br.com.douglasmotta.domain.model.MovieTrailer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -56,6 +57,15 @@ class MoviesRepository(
                     castMembersResponse = creditsResponse.cast,
                     imageSize = ImageSize.X_LARGE,
                 )
+            }
+        }
+    }
+
+    suspend fun getMovieTrailer(movieId: Int): Result<MovieTrailer> {
+        return withContext(ioDispatcher) {
+            runCatching {
+                val videosResponse = ktorApiClient.getVideos(movieId)
+                videosResponse.toModel()
             }
         }
     }

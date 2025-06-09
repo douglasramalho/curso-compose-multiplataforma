@@ -22,6 +22,9 @@ class MovieDetailViewModel(
     private val _movieDetailState = MutableStateFlow<MovieDetailState>(MovieDetailState.Loading)
     val movieDetailState = _movieDetailState.asStateFlow()
 
+    private val _watchTrailerState = MutableStateFlow<WatchTrailerState?>(null)
+    val watchTrailerState = _watchTrailerState.asStateFlow()
+
     init {
         getMovieDetail(movieDetailRoute.movieId)
     }
@@ -43,9 +46,39 @@ class MovieDetailViewModel(
         }
     }
 
+    fun watchTrailer() {
+        viewModelScope.launch {
+            // Set loading state
+            _watchTrailerState.update { WatchTrailerState.Loading }
+
+            moviesRepository.getMovieTrailer(movieDetailRoute.movieId).fold(
+                onSuccess = { movieTrailer ->
+                    _watchTrailerState.update {
+                        WatchTrailerState.Success(movieTrailer.url)
+                    }
+                },
+                onFailure = { error ->
+                    _watchTrailerState.update {
+                        WatchTrailerState.Error(error.message ?: "Unknown error")
+                    }
+                }
+            )
+        }
+    }
+
+    fun resetWatchTrailerState() {
+        _watchTrailerState.update { null }
+    }
+
     sealed interface MovieDetailState {
         data object Loading : MovieDetailState
         data class Success(val movie: Movie) : MovieDetailState
         data class Error(val message: String) : MovieDetailState
+    }
+
+    sealed interface WatchTrailerState {
+        data object Loading : WatchTrailerState
+        data class Success(val youtubeUrl: String) : WatchTrailerState
+        data class Error(val message: String) : WatchTrailerState
     }
 }

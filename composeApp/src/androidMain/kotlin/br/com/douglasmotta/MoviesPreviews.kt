@@ -50,7 +50,9 @@ fun MoviesDetailScreenPreview() {
     MoviesAppTheme {
         MovieDetailScreen(
             movieDetailState = MovieDetailViewModel.MovieDetailState.Success(movie1),
+            watchTrailerState = null,
             onNavigationIconClick = {},
+            onWatchTrailerClick = {},
         )
     }
 }

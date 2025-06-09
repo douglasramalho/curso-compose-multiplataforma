@@ -1,6 +1,7 @@
 package br.com.douglasmotta
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,6 +14,10 @@ import br.com.douglasmotta.ui.navigation.AppRoutes
 import br.com.douglasmotta.ui.theme.MoviesAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
+
+val LocalUrlLauncher = staticCompositionLocalOf<UrlLauncher> {
+    error("NO UrlOpener provided")
+}
 
 @Composable
 @Preview

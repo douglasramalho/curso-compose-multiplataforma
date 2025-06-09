@@ -6,10 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 class MainActivity : ComponentActivity() {
@@ -23,8 +23,10 @@ class MainActivity : ComponentActivity() {
             SideEffect {
                 WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = false
             }
-            
-            App()
+
+            CompositionLocalProvider(LocalUrlLauncher provides UrlLauncher(this)) {
+                App()
+            }
         }
     }
 }
