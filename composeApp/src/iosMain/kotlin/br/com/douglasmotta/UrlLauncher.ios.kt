@@ -5,6 +5,13 @@ import platform.UIKit.UIApplication
 
 actual class UrlLauncher {
     actual fun openUrl(url: String) {
-        UIApplication.sharedApplication.openURL(NSURL(url))
+        val nsUrl = NSURL.URLWithString(url)
+        if (nsUrl != null) {
+            UIApplication.sharedApplication.openURL(
+                url = nsUrl,
+                options = emptyMap<Any?, Any>(),
+                completionHandler = null
+            )
+        }
     }
 }
