@@ -5,8 +5,8 @@ import platform.Foundation.NSNumberFormatter
 
 actual fun Double.formatRating(): String {
     val formatter = NSNumberFormatter()
-    formatter.minimumFractionDigits = 0u
-    formatter.maximumFractionDigits = 2u
+    formatter.minimumFractionDigits = 1u
+    formatter.maximumFractionDigits = 1u
     formatter.numberStyle = 1u
-    return formatter.stringFromNumber(NSNumber(this))!!
+    return formatter.stringFromNumber(NSNumber(this)) ?: ""
 }
