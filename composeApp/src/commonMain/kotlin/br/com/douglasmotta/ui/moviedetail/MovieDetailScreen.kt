@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -69,9 +70,13 @@ fun MovieDetailRoute(
 
     if (watchTrailerState is MovieDetailViewModel.WatchTrailerState.Error) {
         AlertDialog(
-            onDismissRequest = viewModel::resetWatchTrailerState,
-            confirmButton = {
+            onDismissRequest = {
                 viewModel.resetWatchTrailerState()
+            },
+            confirmButton = {
+                Button(onClick = { viewModel.resetWatchTrailerState() }) {
+                    Text("OK")
+                }
             },
             title = {
                 Text(
